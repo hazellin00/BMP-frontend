@@ -1,9 +1,9 @@
 import client from './client.js'
 
 export function getProfile() {
-  return client.get('/users/me')
+  return client.get('api/v1/me')
 }
 
 export function updateProfile(data) {
-  return client.put('/users/me', data)
+  return client.put('api/v1/me', data)
 }
