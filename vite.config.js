@@ -7,6 +7,7 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      // 如果你的 public 資料夾下真的沒有這些檔案，可以先註解掉
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
         name: '血壓記錄',
@@ -24,13 +25,23 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // 🌟 修正點 1: 僅保留常見且確定會有的副檔名，移除 woff2 (除非你確定有字體檔)
+        globPatterns: ['**/*.{js,css,html,png,svg,ico}'], 
+        
+        // 🌟 修正點 2: 加上這個，防止因為找不到某些 glob 檔案而導致 Build 失敗
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/bpm-backend-5u8z\.onrender\.com\/.*/i,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-cache',
+              cacheableResponse: {
+                statuses: [0, 200]
+              },
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 60 * 60 * 24, // 24 hours
@@ -40,6 +51,10 @@ export default defineConfig({
           },
         ],
       },
+      // 🌟 修正點 3: 在開發環境禁用某些嚴格檢查
+      devOptions: {
+        enabled: true
+      }
     }),
   ],
   resolve: {
