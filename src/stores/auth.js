@@ -24,17 +24,23 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function register(name, email, password) {
-    const res = await apiRegister(name, email, password)
-    const data = res.data
-    const jwt = data.access_token || data.token
-    if (!jwt) throw new Error('No token in response')
-
+  const res = await apiRegister(name, email, password)
+  const data = res.data
+  
+  //  檢查是否有 Token (驗證模式下通常沒有)
+  const jwt = data.access_token || data.token
+  
+  if (jwt) {
+    // 只有在沒開啟 Email 驗證或直接登入時才會跑這
     token.value = jwt
     localStorage.setItem('token', jwt)
-
     await fetchMe()
-    return user.value
+  } else {
+    // Email 驗證模式：提示使用者去收信，而不是報錯
+    console.log('請檢查電子郵件以啟用帳號')
+    return { needsVerification: true }
   }
+}
 
   async function fetchMe() {
     try {

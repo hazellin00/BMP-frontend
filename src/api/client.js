@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://bpm-backend-5u8z.onrender.com',
+  baseURL: import.meta.env.VITE_API_URL || 'https://bpm-backend-5u8z.onrender.com/api/v1',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
