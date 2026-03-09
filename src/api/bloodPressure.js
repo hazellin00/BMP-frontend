@@ -8,10 +8,6 @@ export function recordBP(sys, dia, pulse) {
   })
 }
 
-export function getTodayRecord() {
-  return client.get('api/v1/blood-pressure/today')
-}
-
 
 export function getHistory(startDate, endDate) {
   return client.get('api/v1/blood-pressure/', {
