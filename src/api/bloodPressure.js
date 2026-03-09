@@ -1,7 +1,5 @@
 import client from './client.js'
 
-import client from './client.js'
-
 export function recordBP(sys, dia, pulse) {
   return client.post('api/v1/blood-pressure/', {
     systolic: sys,
