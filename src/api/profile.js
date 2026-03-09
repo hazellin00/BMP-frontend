@@ -5,5 +5,5 @@ export function getProfile() {
 }
 
 export function updateProfile(data) {
-  return client.put('api/v1/me', data)
+  return client.patch('api/v1/me', data)
 }
